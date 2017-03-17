@@ -1,4 +1,5 @@
 import random
+from PCB import *
 
 class FileIO:
 
@@ -19,7 +20,18 @@ class FileIO:
                 currProcessCount += 1
             writeFile.close()
         except IOError:
-            print "Error creating/writing to file", filename
+            print "Error creating/writing to file ", filename
 
+    @staticmethod
+    def generatePCBfromFile(filename):
+        arr = []
+        try:
+            readfile = open(filename)
+            for line in readfile:
+                 ID, burst= line.split(":")
+                 pcb = PCB(ID, burst)
+                 arr.append(pcb)
 
-FileIO.generateRandomProgram('program2.txt', 4000, 1000)
+        except IOError:
+            print "Error reading from file ", filename
+        return arr
