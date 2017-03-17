@@ -22,6 +22,7 @@ class FileIO:
         except IOError:
             print "Error creating/writing to file ", filename
 
+    #generates the PCBs from the given file
     @staticmethod
     def generatePCBsFromFile(filename):
         #array to be returned
@@ -43,7 +44,3 @@ class FileIO:
 
         #return the array
         return arr
-
-arr = FileIO.generatePCBsFromFile('program2.txt')
-for item in arr:
-    print item.state
