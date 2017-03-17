@@ -43,6 +43,3 @@ class FileIO:
 
         #return the array
         return arr
-
-
-print FileIO.generatePCBsFromFile('program2.txt')

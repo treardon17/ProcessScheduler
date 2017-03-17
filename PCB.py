@@ -16,6 +16,6 @@ class PCB:
         self.wait = 0
         self.response = 0
 
-        #this should output string values of everything rather than pointer values
+    #this should output string values of everything rather than pointer values
     def __str__ (self):
         return str(self.ID, self.burst, self.priority, self.accumulatedTime, self.wait, self.response)
