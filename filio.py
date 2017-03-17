@@ -23,15 +23,26 @@ class FileIO:
             print "Error creating/writing to file ", filename
 
     @staticmethod
-    def generatePCBfromFile(filename):
+    def generatePCBsFromFile(filename):
+        #array to be returned
         arr = []
         try:
+            #open the file and read it line by line
             readfile = open(filename)
             for line in readfile:
-                 ID, burst= line.split(":")
-                 pcb = PCB(ID, burst)
-                 arr.append(pcb)
+                #split each line by the colon
+                #   create a PCB object,
+                #   then append it to the returned array
+                ID, burst = line.split(":")
+                pcb = PCB(ID, burst)
+                arr.append(pcb)
 
+        #if we had a problem
         except IOError:
             print "Error reading from file ", filename
+
+        #return the array
         return arr
+
+
+print FileIO.generatePCBsFromFile('program2.txt')
