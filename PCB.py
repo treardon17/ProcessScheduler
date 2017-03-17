@@ -1,10 +1,11 @@
+#Class to define constant values for processor state
+class ProcessState:
+    ready = 'READY'
+    running = 'RUNNING'
+    complete = 'COMPLETE'
 
-from enum import Enum
 #This is the start to the PCB and what the PCB values should have
 class PCB:
-    
-    #Enum to let you know what state the process is currently in
-    processState = Enum('ready', 'running', 'completed')
 
     def __init__ (self, ID, burst):
 
@@ -15,7 +16,7 @@ class PCB:
 
         #The rest of these will be set later, so leave uninitialized
         self.priority = -1
-        self.state = self.processState.ready
+        self.state = ProcessState.ready
         self.accumulatedTime = 0
         self.wait = 0
         self.response = 0

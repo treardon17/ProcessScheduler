@@ -43,3 +43,7 @@ class FileIO:
 
         #return the array
         return arr
+
+arr = FileIO.generatePCBsFromFile('program2.txt')
+for item in arr:
+    print item.state
