@@ -11,11 +11,15 @@ class FileIO:
             writeFile = open(filename, 'w+')
             currProcessCount = 0
             while currProcessCount < numProcesses:
+                #the time in which the process enters the queue
+                processEntry = random.randrange(0, maxLength + 1)
                 #we get a random process length (burst time) between 1 and 1000
                 processLength = random.randrange(1, maxLength + 1)
-                #we make a string with the processID on the left and the length
-                #   on the right separated by a colon
-                processString = str(currProcessCount) + ":" + str(processLength) + "\n"
+                #we make a string with the processID on the left
+                #   the length of the process in the middle
+                #   and the process entry point on the right
+                #   separated by a colon
+                processString = str(currProcessCount) + ":" + str(processLength) + ":" + str(processEntry) + "\n"
                 writeFile.write(processString)
                 currProcessCount += 1
             writeFile.close()
@@ -34,8 +38,8 @@ class FileIO:
                 #split each line by the colon
                 #   create a PCB object,
                 #   then append it to the returned array
-                ID, burst = line.split(":")
-                pcb = PCB(ID, burst)
+                ID, burst, processStart = line.split(":")
+                pcb = PCB(ID, burst, processStart)
                 arr.append(pcb)
 
         #if we had a problem
