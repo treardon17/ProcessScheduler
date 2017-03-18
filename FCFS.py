@@ -1,18 +1,23 @@
 from AlgorithmBase import *
-import pdb
+import time
 
 class FCFS(AlgorithmBase):
     def __init__(self, filename):
+        #initialize the parent class
         AlgorithmBase.__init__(self, filename)
-            #
-            # #TODO ITEM
-            # #FCFS ALGORITHM WILL GO HERE
-            #
-            # #zero out all of the global queues and dictionaries
-            # self.processTable.clear()
-            # self.runningProcesses.clear()
-            # self.readyQueue.clear()
+        self.run()
+        self.stats.printStats()
 
+    def run(self):
+        currProcess = 0
+        for process in self.readyQueue:
+            theProcess = self.processTable[process]
+            theProcess.run()
+            print currProcess
+            time.sleep(theProcess.burstTime * 0.001)
+            theProcess.terminate()
+            self.stats.addProcessToStats(theProcess)
+            currProcess += 1
 
 
 fcfs = FCFS('program1.txt')
