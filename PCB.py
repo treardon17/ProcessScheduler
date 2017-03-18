@@ -9,12 +9,12 @@ class ProcessState:
 #This is the start to the PCB and what the PCB values should have
 class PCB:
 
-    def __init__ (self, ID, burst):
+    def __init__ (self, ID, burst, processStart):
         #getting the PCB.ID from the .txt file
         self.ID = ID
         #getting the PCB.burst from the .txt file
         self.burst = burst
-
+        self.processStart = processStart
         #The rest of these will be set later, so leave uninitialized
         self.priority = -1
         self.state = ProcessState.ready
@@ -39,4 +39,9 @@ class PCB:
         #the process is now running
         self.state = ProcessState.running
         #get the current time it started running
-        self.accumulatedTime += (time.time() - self.startTime)
+        self.wait += (time.time() - self.startTime)
+
+    def terminate(self):
+        self.state = ProcessState.complete
+        self.end = time.time()
+        #TODO set the wait time/run time
