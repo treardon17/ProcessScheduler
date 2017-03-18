@@ -12,7 +12,7 @@ class FileIO:
             currProcessCount = 0
             while currProcessCount < numProcesses:
                 #the time in which the process enters the queue
-                processEntry = random.randrange(0, maxLength + 1)
+                processEntry = random.randrange(0, maxLength*currProcessCount + 1)
                 #we get a random process length (burst time) between 1 and 1000
                 processLength = random.randrange(1, maxLength + 1)
                 #we make a string with the processID on the left
@@ -39,7 +39,7 @@ class FileIO:
                 #   create a PCB object,
                 #   then append it to the returned array
                 ID, burst, processStart = line.split(":")
-                pcb = PCB(ID, burst, processStart)
+                pcb = PCB(int(ID), int(burst), int(processStart))
                 arr.append(pcb)
 
         #if we had a problem
@@ -48,3 +48,5 @@ class FileIO:
 
         #return the array
         return arr
+
+FileIO.generateRandomProgram('program1.txt', 5000, 200)

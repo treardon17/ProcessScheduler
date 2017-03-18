@@ -1,4 +1,5 @@
 import time
+import pdb
 
 #Class to define constant values for processor state
 class ProcessState:
@@ -19,7 +20,7 @@ class PCB:
         self.priority = -1
         self.state = ProcessState.ready
         self.accumulatedTime = 0
-        self.wait = 0
+        self.waitTime = -processStart
         self.response = 0
 
         #the process is waiting
@@ -39,7 +40,7 @@ class PCB:
         #the process is now running
         self.state = ProcessState.running
         #get the current time it started running
-        self.wait += (time.time() - self.startTime)
+        self.waitTime += (time.time() - self.startTime)
 
     def terminate(self):
         self.state = ProcessState.complete
