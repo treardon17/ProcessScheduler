@@ -1,17 +1,12 @@
 import time
 
 # Class to define constant values for processor state
-
-
 class ProcessState:
     ready = 'READY'
     running = 'RUNNING'
     complete = 'COMPLETE'
 
-
 # This is the start to the PCB and what the PCB values should have
-
-
 class PCB:
 
     def __init__ (self, ID, burstTime, processStart):
@@ -19,6 +14,7 @@ class PCB:
         self.ID = ID
         # getting the PCB.burstTime from the .txt file
         self.burstTime = burstTime
+        # the entry point of the process
         self.processStart = processStart
         # The rest of these will be set later, so leave uninitialized
         self.priority = -1
@@ -27,9 +23,11 @@ class PCB:
         self.waitTime = 0
         self.executionTime = 0
         self.responseTime = 0
+        # the current progress the process is at (should not exceed burst)
+        self.currentTimeStep = 0
+        # whether or not the process has started or not
         self.startedExecuting = False
-
-        # the time the process was created
+        # the time the process was created (set in wait)
         self.creationTime = 0
         # the time the process was initially started
         self.startTime = 0
@@ -38,42 +36,44 @@ class PCB:
         # the last time the process was executing
         self.lastExecutionTime = 0
         # the process is waiting
-        self.wait()
+        self.wait(processStart)
 
-    def wait(self):
-        currTime = time.time()
+    def wait(self, time):
         if not self.startedExecuting:
-            self.creationTime = time.time()
+            self.creationTime = time
         # set the state to ready because it's not running anymore (yet)
         self.state = ProcessState.ready
         # keep track of the last time we waited
-        self.lastWaitTime = currTime
-        # keep track of the total amount of time we've been executing
-        #   only increment the execution time if we've actually executed before
-        if self.lastExecutionTime > 0:
-            self.executionTime += currTime - self.lastExecutionTime
+        self.lastWaitTime = time
 
-    def run(self):
-        currTime = time.time()
+    def step(self, time):
+        if self.currentTimeStep >= self.burstTime:
+            self.terminate(time)
+        else:
+            #increment the current time step
+            self.currentTimeStep += 1
+            #increment the execution time
+            self.executionTime += 1
+
+    def run(self, time):
         if not self.startedExecuting:
             # keep track of the time we start waiting
-            self.startTime = currTime
+            self.startTime = time
             # if we haven't seen the processor yet, we want to record
             #   the response time
-            self.responseTime = currTime - self.creationTime
+            self.responseTime = time - self.creationTime
             self.startedExecuting = True
 
         # the process is now running
         self.state = ProcessState.running
         # get the current time it started running
-        self.waitTime += (currTime - self.lastWaitTime)
-        self.lastExecutionTime = currTime
+        self.waitTime += (time - self.lastWaitTime)
+        self.lastExecutionTime = time
 
-    def terminate(self):
-        currTime = time.time()
-        self.wait()
+    def terminate(self, time):
+        self.wait(time)
         self.state = ProcessState.complete
-        self.terminationTime = currTime
+        self.terminationTime = time
         self.accumulatedTime = self.terminationTime - self.creationTime
 
     # STATISTICS-------------------------------------------------
@@ -81,10 +81,11 @@ class PCB:
         return self.waitTime + self.executionTime
 
     def getAccumulatedTime(self):
-        if self.terminationTime:
-            return self.terminationTime - self.creationTime
-        else:
-            return time.time() - self.creationTime
+        return self.burstTime
+        # if self.terminationTime:
+        #     return self.terminationTime - self.creationTime
+        # else:
+        #     return self.currentTimeStep - self.creationTime
 
     def getWaitTime(self):
         return self.waitTime

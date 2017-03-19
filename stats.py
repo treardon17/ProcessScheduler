@@ -38,6 +38,15 @@ class StatsManager:
         else:
             return -1
 
+    def getAvgExecutionTime(self):
+        if self.numProcesses > 0:
+            return self.accumulatedExecutionTime/self.numProcesses
+        else:
+            return -1
+
+    def getProcessorUtilization(self):
+        return self.accumulatedExecutionTime/self.accumulatedTime
+
     def printStats(self):
         print "-----------------------------------------------"
         print "Number of processes: ", self.numProcesses
@@ -46,3 +55,5 @@ class StatsManager:
         print "Average Response Time: ", self.getAvgResponseTime()
         print "Average Turnaround Time: ", self.getAvgTurnaroundTime()
         print "Total Execution Time: ", self.accumulatedExecutionTime
+        print "Average Execution Time: ", self.getAvgExecutionTime()
+        print "Processor Utilization: ", self.getProcessorUtilization()

@@ -9,15 +9,18 @@ class FCFS(AlgorithmBase):
         self.stats.printStats()
 
     def run(self):
-        currProcess = 0
+        time = 0
         for process in self.readyQueue:
             theProcess = self.processTable[process]
-            theProcess.run()
-            print currProcess
-            time.sleep(theProcess.burstTime * 0.001)
-            theProcess.terminate()
+            print process
+            # run the process until it is complete
+            theProcess.run(time)
+            while theProcess.state is not ProcessState.complete:
+                #increment the process progress
+                theProcess.step(time)
+                #increment the time step
+                time += 1
+            # the process finished, so add it to the stats
             self.stats.addProcessToStats(theProcess)
-            currProcess += 1
 
-
-fcfs = FCFS('program1.txt')
+fcfs = FCFS('program3.txt')
