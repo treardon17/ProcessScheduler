@@ -12,40 +12,46 @@ class StatsManager:
         self.accumulatedExecutionTime = 0
         self.processorUtilization = 0
 
-    def addProcessToStats(self, process):
+    def addProcessToStats(self, process, currentTimeStep):
         self.numProcesses += 1
-        self.accumulatedTime += process.getAccumulatedTime()
         self.accumulatedWaitTime += process.getWaitTime()
         self.accumulatedResponseTime += process.getResponseTime()
         self.accumulatedTurnaroundTime += process.getTurnaroundTime()
         self.accumulatedExecutionTime += process.getExecutionTime()
+        # Accumulated time is the current time step because we don't want
+        #   the processor to have 100% utilization statistics if there were
+        #   gaps between processes.
+        self.setAccumulatedTime(currentTimeStep)
+
+    def setAccumulatedTime(self, accumulatedTime):
+        self.accumulatedTime = accumulatedTime
 
     def getAvgWaitTime(self):
         if self.numProcesses > 0:
-            return self.accumulatedWaitTime/self.numProcesses
+            return float(self.accumulatedWaitTime)/self.numProcesses
         else:
             return -1
 
     def getAvgResponseTime(self):
         if self.numProcesses > 0:
-            return self.accumulatedResponseTime/self.numProcesses
+            return float(self.accumulatedResponseTime)/self.numProcesses
         else:
             return -1
 
     def getAvgTurnaroundTime(self):
         if self.numProcesses > 0:
-            return self.accumulatedTurnaroundTime/self.numProcesses
+            return float(self.accumulatedTurnaroundTime)/self.numProcesses
         else:
             return -1
 
     def getAvgExecutionTime(self):
         if self.numProcesses > 0:
-            return self.accumulatedExecutionTime/self.numProcesses
+            return float(self.accumulatedExecutionTime)/self.numProcesses
         else:
             return -1
 
     def getProcessorUtilization(self):
-        return self.accumulatedExecutionTime/self.accumulatedTime
+        return float(self.accumulatedExecutionTime)/float(self.accumulatedTime)
 
     def printStats(self):
         print "-----------------------------------------------"

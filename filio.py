@@ -49,4 +49,4 @@ class FileIO:
         #return the array
         return arr
 
-FileIO.generateRandomProgram('program1.txt', 200, 200)
+# FileIO.generateRandomProgram('program1.txt', 200, 200)

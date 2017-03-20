@@ -1,4 +1,5 @@
 import time
+import pdb
 
 # Class to define constant values for processor state
 class ProcessState:
@@ -47,13 +48,16 @@ class PCB:
         self.lastWaitTime = time
 
     def step(self, time):
-        if self.currentTimeStep >= self.burstTime:
+        # run the program if needed
+        if self.state is ProcessState.ready:
+            self.run(time)
+        #increment the current time step
+        self.currentTimeStep += 1
+        #increment the execution time
+        self.executionTime += 1
+        # terminate the program if needed
+        if self.currentTimeStep >= self.burstTime - 1:
             self.terminate(time)
-        else:
-            #increment the current time step
-            self.currentTimeStep += 1
-            #increment the execution time
-            self.executionTime += 1
 
     def run(self, time):
         if not self.startedExecuting:
