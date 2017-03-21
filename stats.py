@@ -54,7 +54,7 @@ class StatsManager:
         return float(self.accumulatedExecutionTime)/float(self.accumulatedTime)
 
     def printStats(self):
-        print "-----------------------------------------------"
+        print "***"
         print "Number of processes: ", self.numProcesses
         print "Accumulated Time: ", self.accumulatedTime
         print "Average Wait Time: ", self.getAvgWaitTime()
@@ -63,3 +63,4 @@ class StatsManager:
         print "Total Execution Time: ", self.accumulatedExecutionTime
         print "Average Execution Time: ", self.getAvgExecutionTime()
         print "Processor Utilization: ", self.getProcessorUtilization()
+        print "***"

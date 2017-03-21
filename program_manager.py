@@ -8,19 +8,13 @@ class ProgramManager:
         # this dictionary will hold the stats for each process function in a list
         self.statsDict = {'fcfs':[], 'rr':[], 'hrrn':[]}
 
-        if len(sys.argv) > 1:
-            # get the file to read from (the second argument)
-            filename = sys.argv[1]
-            algorithm = sys.argv[0]
-            program = None
-            if algorithm is 'fcfs':
-                program = FCFS(filename)
-            elif algorithm is 'rr':
-                program = RR(filename)
-            elif algorithm is 'hrrn':
-                program = HRRN(filename)
+        file = 'program1.txt'
 
-            self.statsDict[algorithm].append(program.stats)
-
+        print "FCFS--------------------"
+        fcfs = FCFS(file)
+        print "RR----------------------"
+        rr = RR(file, 5)
+        print "HRRN--------------------"
+        hrrn = HRRN(file)
 
 program_manager = ProgramManager()

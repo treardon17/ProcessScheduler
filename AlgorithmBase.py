@@ -23,6 +23,12 @@ class AlgorithmBase:
             self.readyQueue.append(pcb.ID)
             self.processTable[pcb.ID] = pcb
 
+        self.run()
+        self.stats.printStats()
+
+    def run(self):
+        print "This is a virtual void function. You should't be reading this."
+
     def updateProcesses(self, time):
         for process in self.readyQueue:
             self.processTable[process].updateProcess(time)

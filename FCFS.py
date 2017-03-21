@@ -6,14 +6,11 @@ class FCFS(AlgorithmBase):
     def __init__(self, filename):
         #initialize the parent class
         AlgorithmBase.__init__(self, filename)
-        self.run()
-        self.stats.printStats()
 
     def run(self):
         time = 0
         for process in self.readyQueue:
             theProcess = self.processTable[process]
-            # print process
             while theProcess.state is not ProcessState.complete:
                 # we don't want to start the process until it's actually
                 #   supposed to start, so we loop the time until the clock
@@ -27,5 +24,3 @@ class FCFS(AlgorithmBase):
                 self.updateProcesses(time)
             # the process finished, so add it to the stats
             self.stats.addProcessToStats(theProcess, time)
-
-fcfs = FCFS('program4.txt')

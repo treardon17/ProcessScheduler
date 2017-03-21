@@ -7,8 +7,6 @@ class HRRN(AlgorithmBase):
     def __init__(self, filename):
         #initialize the parent class
         AlgorithmBase.__init__(self, filename)
-        self.run()
-        self.stats.printStats()
 
     def reSortQueue(self, time):
         processList = []
@@ -24,9 +22,7 @@ class HRRN(AlgorithmBase):
         # empty the readyQueue and fill it with the new order for processes
         self.readyQueue = []
         for pcb in processList:
-            print pcb.waitTime
             self.readyQueue.append(pcb.ID)
-
 
     def run(self):
         time = 0
@@ -36,7 +32,7 @@ class HRRN(AlgorithmBase):
         while len(self.readyQueue) > 0:
             self.reSortQueue(time)
             theProcess = self.processTable[self.readyQueue[processIndex]]
-            # print process
+
             while theProcess.state is not ProcessState.complete:
                 # we don't want to start the process until it's actually
                 #   supposed to start, so we loop the time until the clock
@@ -52,5 +48,3 @@ class HRRN(AlgorithmBase):
             self.readyQueue.pop(processIndex)
             # the process finished, so add it to the stats
             self.stats.addProcessToStats(theProcess, time)
-
-hrrn = HRRN('program4.txt')

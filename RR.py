@@ -4,11 +4,9 @@ import pdb
 
 class RR(AlgorithmBase):
     def __init__(self, filename, quantum):
+        self.quantum = quantum
         #initialize the parent class
         AlgorithmBase.__init__(self, filename)
-        self.quantum = quantum
-        self.run()
-        self.stats.printStats()
 
     def run(self):
         time = 0
@@ -16,7 +14,6 @@ class RR(AlgorithmBase):
         while len(self.readyQueue) > 0:
             currProcess = self.readyQueue[processIndex]
             theProcess = self.processTable[currProcess]
-            # print currProcess
             qCount = 0
             # run the process for the quantum, unless it is complete, then exit
             while (qCount < self.quantum and theProcess.state is not ProcessState.complete):
@@ -28,9 +25,8 @@ class RR(AlgorithmBase):
                     qCount += 1
                 # increment the time step
                 time += 1
-                # update the wait times on all the processes
+                # update the wait time on all the processes
                 self.updateProcesses(time)
-
 
             # if the process is terminated, remove it from the readyQueue.
             #   this will prevent the infinite loop
@@ -43,7 +39,7 @@ class RR(AlgorithmBase):
                 processIndex -= 1
                 # the process finished, so add it to the stats
                 self.stats.addProcessToStats(theProcess, time)
-            elif theProcess.state is ProcessState.running:
+            else:
                 theProcess.wait(time)
 
             # if we've processed everything, stop.
@@ -53,5 +49,3 @@ class RR(AlgorithmBase):
                 processIndex = 0
             else:
                 processIndex += 1
-
-rr = RR('program3.txt', 5)
