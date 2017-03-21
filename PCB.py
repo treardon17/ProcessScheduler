@@ -18,12 +18,12 @@ class PCB:
         # the entry point of the process
         self.processStart = processStart
         # The rest of these will be set later, so leave uninitialized
-        self.priority = -1
         self.state = ProcessState.ready
-        self.accumulatedTime = 0
         self.waitTime = 0
         self.executionTime = 0
+        self.responseRatio = 0
         self.responseTime = 0
+        self.accumulatedTime = 0
         # the current progress the process is at (should not exceed burst)
         self.currentTimeStep = 0
         # whether or not the process has started or not
@@ -47,13 +47,25 @@ class PCB:
         # keep track of the last time we waited
         self.lastWaitTime = time
 
+    def updateProcess(self, time):
+        # if the process state is ready
+        if self.state is ProcessState.ready:
+            # calculate the wait time based on the current time
+            #   minus the last wait time of the process
+            addWait = (time - self.lastWaitTime)
+            self.waitTime += addWait
+            # if we update again, we don't want to include the time we just added
+            self.lastWaitTime = time
+
     def step(self, time):
         # run the program if needed
         if self.state is ProcessState.ready:
             self.run(time)
-        #increment the current time step
+        # calculate the response ratio
+        self.calculateRR()
+        # increment the current time step
         self.currentTimeStep += 1
-        #increment the execution time
+        # increment the execution time
         self.executionTime += 1
         # terminate the program if needed
         if self.currentTimeStep >= self.burstTime - 1:
@@ -70,8 +82,6 @@ class PCB:
 
         # the process is now running
         self.state = ProcessState.running
-        # get the current time it started running
-        self.waitTime += (time - self.lastWaitTime)
         self.lastExecutionTime = time
 
     def terminate(self, time):
@@ -81,15 +91,11 @@ class PCB:
         self.accumulatedTime = self.terminationTime - self.creationTime
 
     # STATISTICS-------------------------------------------------
+    def calculateRR(self):
+        self.responseRatio = ((self.waitTime + self.burstTime) / self.burstTime)
+
     def getTurnaroundTime(self):
         return self.waitTime + self.executionTime
-
-    def getAccumulatedTime(self):
-        return self.burstTime
-        # if self.terminationTime:
-        #     return self.terminationTime - self.creationTime
-        # else:
-        #     return self.currentTimeStep - self.creationTime
 
     def getWaitTime(self):
         return self.waitTime

@@ -28,16 +28,23 @@ class RR(AlgorithmBase):
                     qCount += 1
                 # increment the time step
                 time += 1
+                # update the wait times on all the processes
+                self.updateProcesses(time)
+
 
             # if the process is terminated, remove it from the readyQueue.
             #   this will prevent the infinite loop
             if theProcess.state is ProcessState.complete:
+                # remove the current process from the ready queue since
+                #   it's finished running and is no longer ready.
                 self.readyQueue.pop(processIndex)
                 # since we removed an item from the readyQueue, we need to
-                #   reset the index so one doesn't get skipped
+                #   reset the index so the next process doesn't get skipped
                 processIndex -= 1
                 # the process finished, so add it to the stats
                 self.stats.addProcessToStats(theProcess, time)
+            elif theProcess.state is ProcessState.running:
+                theProcess.wait(time)
 
             # if we've processed everything, stop.
             #   if we've reached the end of our queue, reset the index to zero,
@@ -47,4 +54,4 @@ class RR(AlgorithmBase):
             else:
                 processIndex += 1
 
-rr = RR('program1.txt', 5)
+rr = RR('program3.txt', 5)

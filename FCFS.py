@@ -23,7 +23,9 @@ class FCFS(AlgorithmBase):
                     theProcess.step(time)
                 # increment the time step
                 time += 1
+                # update the wait times for all the processes
+                self.updateProcesses(time)
             # the process finished, so add it to the stats
             self.stats.addProcessToStats(theProcess, time)
 
-fcfs = FCFS('program1.txt')
+fcfs = FCFS('program4.txt')

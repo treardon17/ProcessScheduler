@@ -23,6 +23,10 @@ class AlgorithmBase:
             self.readyQueue.append(pcb.ID)
             self.processTable[pcb.ID] = pcb
 
+    def updateProcesses(self, time):
+        for process in self.readyQueue:
+            self.processTable[process].updateProcess(time)
+
     def cleanup(self):
         #zero out all of the global queues and dictionaries
         self.processTable.clear()
