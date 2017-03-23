@@ -5,8 +5,10 @@ import pdb
 class RR(AlgorithmBase):
     def __init__(self, filename, quantum):
         self.quantum = quantum
-        #initialize the parent class
+        # initialize the parent class
         AlgorithmBase.__init__(self, filename)
+        self.run()
+        self.stats.printStats()
 
     def run(self):
         time = 0
@@ -38,7 +40,7 @@ class RR(AlgorithmBase):
                 #   reset the index so the next process doesn't get skipped
                 processIndex -= 1
                 # the process finished, so add it to the stats
-                self.stats.addProcessToStats(theProcess, time)
+                self.stats.addProcessToStats(theProcess, time, self.numCores)
             else:
                 theProcess.wait(time)
 

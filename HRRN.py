@@ -7,6 +7,8 @@ class HRRN(AlgorithmBase):
     def __init__(self, filename):
         #initialize the parent class
         AlgorithmBase.__init__(self, filename)
+        self.run()
+        self.stats.printStats()
 
     def reSortQueue(self, time):
         processList = []
@@ -47,4 +49,4 @@ class HRRN(AlgorithmBase):
             # the process is complete, so we remove it from the readyQueue
             self.readyQueue.pop(processIndex)
             # the process finished, so add it to the stats
-            self.stats.addProcessToStats(theProcess, time)
+            self.stats.addProcessToStats(theProcess, time, self.numCores)

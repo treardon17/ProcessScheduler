@@ -6,6 +6,8 @@ class FCFS(AlgorithmBase):
     def __init__(self, filename):
         #initialize the parent class
         AlgorithmBase.__init__(self, filename)
+        self.run()
+        self.stats.printStats()
 
     def run(self):
         time = 0
@@ -23,4 +25,4 @@ class FCFS(AlgorithmBase):
                 # update the wait times for all the processes
                 self.updateProcesses(time)
             # the process finished, so add it to the stats
-            self.stats.addProcessToStats(theProcess, time)
+            self.stats.addProcessToStats(theProcess, time, self.numCores)

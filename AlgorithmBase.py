@@ -4,6 +4,8 @@ from operator import attrgetter
 
 class AlgorithmBase:
     def __init__(self, filename):
+        # the number of cores the computer can use to execute
+        self.numCores = 1
         self.processTable = {}
         # a dictionary of process IDs as keys and PCBs as values
         self.processTable = {}
@@ -22,9 +24,6 @@ class AlgorithmBase:
         for pcb in pcbs:
             self.readyQueue.append(pcb.ID)
             self.processTable[pcb.ID] = pcb
-
-        self.run()
-        self.stats.printStats()
 
     def run(self):
         print "This is a virtual void function. You should't be reading this."
