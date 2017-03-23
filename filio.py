@@ -49,3 +49,5 @@ class FileIO:
         return arr
 
 # FileIO.generateRandomProgram('program1.txt', 200, 200)
+# FileIO.generateRandomProgram('test1.txt', 150, 100)
+# FileIO.generateRandomProgram('test2.txt', 100, 150)
