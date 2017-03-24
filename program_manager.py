@@ -8,7 +8,8 @@ class ProgramManager:
     def __init__(self):
         # this dictionary will hold the stats for each process function in a list
         self.statsDict = {'fcfs': [], 'rr': [], 'hrrn': [], 'loadshare': []}
-        self.files = ['program1.txt', 'test1.txt', 'test2.txts', 'program2.txt', 'program3.txt', 'program4.txt', 'program5.txt']
+        #self.files = ['program1.txt', 'test1.txt', 'test2.txts', 'program2.txt', 'program3.txt', 'program4.txt', 'program5.txt', ]
+        self.files = ['program6.txt']
         self.FCFSRun()
         self.RRRun()
         self.HRRNRun()
